@@ -1,0 +1,54 @@
+.footer {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.footer-section {
+    flex: 1 1 100%; /* Take full width initially */
+    margin-bottom: 20px; /* Add some spacing between sections */
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 5px;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-section p {
+    color: white;
+    text-decoration: none;
+}
+
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+    .footer {
+        flex-wrap: nowrap; /* Reset flex-wrap to single row */
+    }
+
+    .footer-section {
+        flex: 1; /* Reset flex to auto width */
+        margin-bottom: 0; /* Remove bottom margin */
+    }
+}
+

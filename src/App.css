@@ -1,0 +1,81 @@
+/* General styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    width: 100%;
+    color: blue;
+}
+
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+footer {
+    background-color: #282c34;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+}
+
+main {
+    padding: 80px 20px 150px; /* Adjust padding to account for fixed header and footer */
+    width: 100%; /* Ensure main takes up full width */
+    overflow-x: hidden; /* Prevent overflow */
+}
+
+section {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #282c34;
+}
+
+p {
+    color: #282c34;
+}
+
+.faq-list {
+    text-align: left;
+}
+
+.faq-item {
+    margin-bottom: 20px;
+}
+
+.faq-item h3 {
+    margin: 10px 0;
+}
+
+.faq-item p {
+    margin: 5px 0 15px 0;
+}
+
+/* Add margin-bottom to the FAQ section */
+#faqs {
+    margin-bottom: -120px; /* Adjust this value as needed to ensure it doesn't overlap with the footer */
+}
+

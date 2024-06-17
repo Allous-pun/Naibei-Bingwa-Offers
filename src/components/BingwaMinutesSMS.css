@@ -1,0 +1,101 @@
+.bingwa-minutes-sms {
+    text-align: center;
+}
+
+.offer-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.offer-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.offer-card h5 {
+    margin: 10px 0;
+}
+
+.offer-card p {
+    margin: 5px 0;
+}
+
+.offer-card button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #61dafb;
+    color: #282c34;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.offer-card button:hover {
+    background-color: #282c34;
+    color: #61dafb;
+}
+
+@media (max-width: 768px) {
+    .offer-card img {
+        height: 150px;
+    }
+
+    .offer-card h5 {
+        font-size: 1.1rem;
+    }
+
+    .offer-card p {
+        font-size: 0.9rem;
+    }
+
+    .offer-card button {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .offer-card img {
+        height: 100px;
+    }
+
+    .offer-card h5 {
+        font-size: 1rem;
+    }
+
+    .offer-card p {
+        font-size: 0.8rem;
+    }
+
+    .offer-card button {
+        padding: 6px 12px;
+    }
+}
+.disabled-button {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.part-a,
+.part-b {
+    text-align: center;
+    padding: 0 15px; /* Add padding to prevent overlapping */
+}
+
+.part-a .d-flex,
+.part-b .d-flex {
+    flex-wrap: wrap; /* Ensure flex items wrap on smaller screens */
+    justify-content: center; /* Center align items */
+}
+
+.part-a .btn,
+.part-b .btn {
+    margin: 5px; /* Add margin to buttons for spacing */
+}
+
+@media (max-width: 768px) {
+    .part-a .btn,
+    .part-b .btn {
+        margin: 5px 2px; /* Adjust margin for smaller screens */
+    }
+}
+
