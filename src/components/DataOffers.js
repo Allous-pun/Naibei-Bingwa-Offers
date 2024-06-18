@@ -5,6 +5,7 @@ import { faWifi } from '@fortawesome/free-solid-svg-icons';
 import './DataOffers.css';
 import OfferForm from './OfferForm';
 import ConfirmationPopup from './ConfirmationPopup';
+import axios from 'axios'; // Import Axios for HTTP requests
 
 const dataOffers = [
   { id: 1, category: 'Daily', title: '1 Hour Bundle', description: '1gb for one hour', price: '19' },
@@ -25,6 +26,8 @@ const DataOffers = () => {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
 
   const filteredOffers = filter === 'All' ? dataOffers : dataOffers.filter(offer => offer.category === filter);
 
@@ -33,9 +36,26 @@ const DataOffers = () => {
     setShowForm(true);
   };
 
-  const handleFormSubmit = (formData) => {
+  const handleFormSubmit = async (formData) => {
     setShowForm(false);
-    setShowConfirmation(true);
+    setProcessing(true);
+    try {
+      // Simulate transaction handling (replace with actual API call)
+      const transactionResponse = await handleTransactionWithBackend(formData);
+      
+      // Assuming transactionResponse contains payment details or success/failure status
+      console.log('Transaction Response:', transactionResponse);
+      if (transactionResponse.success) {
+        setShowConfirmation(true); // Show confirmation popup on successful transaction
+      } else {
+        setError('Transaction failed. Please try again.');
+      }
+    } catch (error) {
+      setError('Error processing transaction. Please try again.');
+      console.error('Transaction Error:', error);
+    } finally {
+      setProcessing(false);
+    }
   };
 
   const handleConfirmPurchase = () => {
@@ -52,6 +72,17 @@ const DataOffers = () => {
       alert(`Purchase successful for ${selectedOffer.title}`);
     } else {
       alert('Invalid PIN');
+    }
+  };
+
+  const handleTransactionWithBackend = async (formData) => {
+    // Example: Handle transaction with your Django backend using Axios
+    try {
+      const response = await axios.post('https://your-backend-api/transaction', formData);
+      return response.data; // Return transaction response from backend
+    } catch (error) {
+      console.error('Error handling transaction:', error);
+      throw error;
     }
   };
 
@@ -87,9 +118,17 @@ const DataOffers = () => {
       </div>
       {showForm && <OfferForm onClose={() => setShowForm(false)} offer={selectedOffer} onSubmit={handleFormSubmit} />}
       {showConfirmation && <ConfirmationPopup onClose={() => setShowConfirmation(false)} onConfirm={handleConfirmPurchase} offer={selectedOffer} />}
+      {processing && <p className="text-center mt-3">Processing transaction...</p>}
+      {error && <p className="text-center text-danger mt-3">{error}</p>}
     </div>
   );
 };
 
 export default DataOffers;
 
+// Backend Tasks:
+// 1. Implement endpoints to handle transaction requests from the frontend.
+// 2. Integrate STK Push or payment gateway to process payments securely.
+// 3. Configure CORS to allow requests from your Vercel-hosted React frontend.
+// 4. Implement logic to handle transaction responses and update database accordingly.
+// 5. Ensure proper error handling and logging for debugging purposes.
