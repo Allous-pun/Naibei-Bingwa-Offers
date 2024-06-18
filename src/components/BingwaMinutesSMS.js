@@ -5,6 +5,7 @@ import { faPhoneAlt, faSms } from '@fortawesome/free-solid-svg-icons';
 import './BingwaMinutesSMS.css';
 import OfferForm from './OfferForm';
 import ConfirmationPopup from './ConfirmationPopup';
+import axios from 'axios'; // Import Axios for HTTP requests
 
 const minutesOffers = [
     { id: 1, category: 'Hourly', title: '1 Hour Minutes', description: '34 minutes for one hour', price: '22' },
@@ -32,6 +33,8 @@ const BingwaMinutesSMS = () => {
     const [offerType, setOfferType] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [processing, setProcessing] = useState(false);
+    const [error, setError] = useState(null);
 
     const filteredMinutesOffers = minutesFilter === 'All' ? minutesOffers : minutesOffers.filter(offer => offer.category === minutesFilter);
     const filteredSmsOffers = smsFilter === 'All' ? smsOffers : smsOffers.filter(offer => offer.category === smsFilter);
@@ -48,9 +51,26 @@ const BingwaMinutesSMS = () => {
         setOfferType('');
     };
 
-    const handleFormSubmit = (formData) => {
+    const handleFormSubmit = async (formData) => {
         setShowForm(false);
-        setShowConfirmation(true);
+        setProcessing(true);
+        try {
+            // Simulate transaction handling (replace with actual API call)
+            const transactionResponse = await handleTransactionWithBackend(formData);
+            
+            // Assuming transactionResponse contains payment details or success/failure status
+            console.log('Transaction Response:', transactionResponse);
+            if (transactionResponse.success) {
+                setShowConfirmation(true); // Show confirmation popup on successful transaction
+            } else {
+                setError('Transaction failed. Please try again.');
+            }
+        } catch (error) {
+            setError('Error processing transaction. Please try again.');
+            console.error('Transaction Error:', error);
+        } finally {
+            setProcessing(false);
+        }
     };
 
     const handleConfirmPurchase = () => {
@@ -67,6 +87,17 @@ const BingwaMinutesSMS = () => {
             alert(`Purchase successful for ${selectedOffer.title}`);
         } else {
             alert('Invalid PIN');
+        }
+    };
+
+    const handleTransactionWithBackend = async (formData) => {
+        // Example: Handle transaction with your Django backend using Axios
+        try {
+            const response = await axios.post('https://your-backend-api/transaction', formData);
+            return response.data; // Return transaction response from backend
+        } catch (error) {
+            console.error('Error handling transaction:', error);
+            throw error;
         }
     };
 
@@ -133,9 +164,17 @@ const BingwaMinutesSMS = () => {
             </div>
             {showForm && <OfferForm onClose={handleCloseForm} offer={selectedOffer} offerType={offerType} onSubmit={handleFormSubmit} />}
             {showConfirmation && <ConfirmationPopup onClose={() => setShowConfirmation(false)} onConfirm={handleConfirmPurchase} offer={selectedOffer} />}
+            {processing && <p className="text-center mt-3">Processing transaction...</p>}
+            {error && <p className="text-center text-danger mt-3">{error}</p>}
         </div>
     );
 };
 
 export default BingwaMinutesSMS;
 
+// Backend Tasks:
+// 1. Implement endpoints to handle transaction requests from the frontend, including STK push integration.
+// 2. Integrate with payment gateway APIs (e.g., M-Pesa API) for processing mobile payments securely.
+// 3. Implement logic to verify and validate transactions, handle responses, and update transaction status in the database.
+// 4. Configure CORS settings to allow requests from your Vercel-hosted React frontend.
+// 5. Ensure proper error handling, logging,
