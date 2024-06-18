@@ -4,54 +4,37 @@ import Footer from './components/Footer';
 import DataOffers from './components/DataOffers';
 import BingwaMinutesSMS from './components/BingwaMinutesSMS';
 import FAQs from './components/FAQs';
-import Promotion from './components/Promotion'; // Import the Promotion component
-import OfferPopup from './components/OfferPopup'; // Import the OfferPopup component
+import OfferPopup from './components/OfferPopup';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
-  const [showPromotion, setShowPromotion] = useState(false);
   const [showOfferPopup, setShowOfferPopup] = useState(false);
-
-  const handleClosePromotion = () => {
-    setShowPromotion(false);
-    localStorage.setItem('lastPromotionTime', new Date().getTime());
-  };
-
-  useEffect(() => {
-    const lastPromotionTime = localStorage.getItem('lastPromotionTime');
-    const now = new Date().getTime();
-
-    // Show promotion if it hasn't been shown in the last 30 seconds
-    if (!lastPromotionTime || now - lastPromotionTime > 30 * 1000) {
-      setShowPromotion(true);
-    }
-
-    // Set interval to check every 30 seconds
-    const interval = setInterval(() => {
-      const currentTime = new Date().getTime();
-      if (!lastPromotionTime || currentTime - lastPromotionTime > 30 * 1000) {
-        setShowPromotion(true);
-        localStorage.setItem('lastPromotionTime', currentTime);
-      }
-    }, 30 * 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    // Show offer pop-up after 30 seconds
-    const timer = setTimeout(() => {
-      setShowOfferPopup(true);
-    }, 30000); // 30 seconds
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleCloseOfferPopup = () => {
     setShowOfferPopup(false);
     localStorage.setItem('lastOfferPopupTime', new Date().getTime());
   };
+
+  useEffect(() => {
+    const lastOfferPopupTime = localStorage.getItem('lastOfferPopupTime');
+    const now = new Date().getTime();
+
+    // Show popup if it hasn't been shown in the last 2 hours (7200 seconds)
+    if (!lastOfferPopupTime || now - lastOfferPopupTime > 7200 * 1000) {
+      setShowOfferPopup(true);
+    }
+
+    const interval = setInterval(() => {
+      const currentTime = new Date().getTime();
+      if (!lastOfferPopupTime || currentTime - lastOfferPopupTime > 7200 * 1000) {
+        setShowOfferPopup(true);
+        localStorage.setItem('lastOfferPopupTime', currentTime);
+      }
+    }, 1000); // Check every second if 2 hours have passed
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="App">
@@ -66,13 +49,11 @@ const App = () => {
         <section id="faqs">
           <FAQs />
         </section>
-        {showPromotion && <Promotion onClose={handleClosePromotion} />}
-        {showOfferPopup && <OfferPopup onClose={handleCloseOfferPopup} />}
       </main>
       <Footer />
+      {showOfferPopup && <OfferPopup onClose={handleCloseOfferPopup} />}
     </div>
   );
 };
 
 export default App;
-
