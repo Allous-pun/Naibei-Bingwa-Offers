@@ -68,3 +68,35 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+The code you have is set up correctly to show how the integration with the backend would work, including form submission and transaction handling. To make it fully functional, you'll need to connect it to your backend service. Below is a summary of the steps and what each part of the code does:
+
+Explanation of the Code(DATA OFFERS,BINGWA MINUTES/SMS AND OFFER FORM JS
+
+Component Structure:
+
+The component uses React hooks to manage state (useState) and shows different offers for minutes and SMS.
+When the user clicks "Buy Now," it shows a form for the user to enter their phone number.
+After the form is submitted, it shows a confirmation popup asking for a PIN.
+
+Form Submission and Transaction Handling:
+
+The form data (phone number and amount) is sent to the backend using Axios when the user submits the form.
+The backend is expected to process the transaction (e.g., initiate an STK push for payment).
+
+Backend Integration:
+
+The handleTransactionWithBackend function is a placeholder for the actual transaction handling logic.
+The backend should handle the transaction, initiate the STK push, and return a response indicating success or failure.
+
+STK Handling Integration: Added state variables (processing, error) and updated logic (handleFormSubmit) to handle STK Push integration or payment processing. This includes Axios for making HTTP POST requests to your Django backend's transaction endpoint.
+
+
+Axios Integration: Import Axios and use it to make HTTP requests (get for fetching packages and post for handling transactions) to your Django backend.
+
+fetchPackagesFromBackend: Simulates fetching packages from the Django backend. Replace the URL (https://your-backend-api/packages) with your actual backend API endpoint.
+
+handleTransactionWithBackend: Simulates handling the transaction with the Django backend. Replace the URL (https://your-backend-api/transaction) with your actual backend API endpoint.
+
