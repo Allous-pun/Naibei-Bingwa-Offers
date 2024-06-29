@@ -26,12 +26,13 @@ const App = () => {
     }
 
     const interval = setInterval(() => {
+      const lastOfferPopupTime = localStorage.getItem('lastOfferPopupTime');
       const currentTime = new Date().getTime();
       if (!lastOfferPopupTime || currentTime - lastOfferPopupTime > 7200 * 1000) {
         setShowOfferPopup(true);
-        localStorage.setItem('lastOfferPopupTime', currentTime);
+        clearInterval(interval); // Clear the interval once the popup is shown
       }
-    }, 1000); // Check every second if 2 hours have passed
+    }, 1000 * 60 * 60 * 2); // Check every 2 hours
 
     return () => clearInterval(interval);
   }, []);
